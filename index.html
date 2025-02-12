@@ -10,19 +10,19 @@
   <h1>Tabella Fabbisogno Filati</h1>
   <div id="tabella-filati"></div>
   <script>
-    const url = "https://cors-anywhere.herokuapp.com/" + "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC9fZen5B-KTjfuemR005SMkSOZCbe8fpWwGQ6stjUcQgbZySCmg_-XFTYI6stJ3cYHak1reA1pPnL/pub?output=csvONE"; // Sostituisci con il tuo link
+    const url = "https://github.com/stvan73/Imaxmagl/blob/doc/fabbisognofilati.csv?output=csv"; // Aggiorna il percorso
 
-    fetch(url)
-    .then(response => response.text())
-    .then(data => {
-        // Analisi dei dati CSV con Papa Parse
-        const risultati = Papa.parse(data, {
-          header: true, // La prima riga contiene le intestazioni
-          dynamicTyping: true, // Converte automaticamente i tipi di dati
-          skipEmptyLines: true, // Ignora le righe vuote
-          delimiter: ";" // Specifica il delimitatore
-        });
-        const datiTabella = risultati.data;
+fetch(url)
+.then(response => response.text())
+.then(data => {
+    // Analisi dei dati CSV con Papa Parse (codice invariato)
+    const risultati = Papa.parse(data, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+      delimiter: ";"
+    });
+    const datiTabella = risultati.data;
 
         // Creazione della tabella con Tabulator
         const tabellaFilati = new Tabulator("#tabella-filati", {
