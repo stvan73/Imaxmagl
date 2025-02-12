@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tabella Fabbisogno Filati</title>
+  <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator.min.css" rel="stylesheet">
+  <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+  <h1>Tabella Fabbisogno Filati</h1>
+  <div id="tabella-filati"></div>
+  <script>
+    const url = "https://cors-anywhere.herokuapp.com/" + "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC9fZen5B-KTjfuemR005SMkSOZCbe8fpWwGQ6stjUcQgbZySCmg_-XFTYI6stJ3cYHak1reA1pPnL/pub?output=csvONE"; // Sostituisci con il tuo link
+
+    fetch(url)
+    .then(response => response.text())
+    .then(data => {
+        // Analisi dei dati CSV con Papa Parse
+        const risultati = Papa.parse(data, {
+          header: true, // La prima riga contiene le intestazioni
+          dynamicTyping: true, // Converte automaticamente i tipi di dati
+          skipEmptyLines: true, // Ignora le righe vuote
+          delimiter: ";" // Specifica il delimitatore
+        });
+        const datiTabella = risultati.data;
+
+        // Creazione della tabella con Tabulator
+        const tabellaFilati = new Tabulator("#tabella-filati", {
+          data: datiTabella,
+          csvDelimiter: ";", // Specifica il delimitatore anche qui
+          columns: [
+            { title: "ID", field: "id" },
+            { title: "Composizione", field: "COMPOSIZIONE" },
+            { title: "Cl", field: "cl" },
+            { title: "Descrizione", field: "Descrizione" },
+            { title: "Collezione", field: "Collezione" },
+            {
+              title: "PRE", field: "PRE", formatter: "money", formatterParams: {
+                decimal: ".", thousand: ",", symbol: "€", symbolAfter: "true", precision: false
+              }
+            },
+            {
+              title: "PRO", field: "PRO", formatter: "money", formatterParams: {
+                decimal: ".", thousand: ",", symbol: "€", symbolAfter: "true", precision: false
+              }
+            },
+            {
+              title: "DA ORD FINALE", field: "DAORDFINALE", formatter: "money", formatterParams: {
+                decimal: ".", thousand: ",", symbol: "€", symbolAfter: "true", precision: false
+              }
+            },
+          ],
+        });
+      });
+  </script>
+</body>
+</html>
